@@ -3,8 +3,6 @@ clc
 
 syms w
 
-K = 5;
-
 % phaseangleeqn = rad2deg(angle(TF))
 
 % phaseanglesolve = phaseangleeqn == 180;
@@ -25,18 +23,21 @@ K = 5;
 %     end
 % end
 
+K = 5;
 s = tf('s')
 TF = K/(s*(s+1)*(s+4));
 margin(TF)
 [Gm,Pm,Wcg,Wcp] = margin(TF);
 GmdB = 20*log10(Gm)
 
+
 for K = 0.01:0.01:19.99
     s = tf('s');
     TF = K/(s*(s+1)*(s+4));
     [GainMargin, PhaseMargin, PhaseCrossoverFreq, GainCrossoverFreq] = margin(TF);
     GainMargindB = 20*log10(GainMargin);
-    if GainMargindB >= 19.5 && GainMargindB <= 20.5
+    error = abs(GainMargindB - 20);
+    if error < 0.01
         GainMargindB
         K
     end
