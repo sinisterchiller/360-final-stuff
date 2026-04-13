@@ -27,7 +27,7 @@ K = 5;
 
 s = tf('s')
 TF = K/(s*(s+1)*(s+4));
-% margin(TF)
+margin(TF)
 [Gm,Pm,Wcg,Wcp] = margin(TF);
 GmdB = 20*log10(Gm)
 
