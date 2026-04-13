@@ -27,6 +27,17 @@ K = 5;
 
 s = tf('s')
 TF = K/(s*(s+1)*(s+4));
-margin(TF)
+% margin(TF)
 [Gm,Pm,Wcg,Wcp] = margin(TF);
-gain = 20*log10(Gm)
+GmdB = 20*log10(Gm)
+
+for K = 0.01:0.01:19.99
+    s = tf('s');
+    TF = K/(s*(s+1)*(s+4));
+    [GainMargin, PhaseMargin, PhaseCrossoverFreq, GainCrossoverFreq] = margin(TF);
+    GainMargindB = 20*log10(GainMargin);
+    if GainMargindB >= 19.5 && GainMargindB <= 20.5
+        GainMargindB
+        K
+    end
+end
