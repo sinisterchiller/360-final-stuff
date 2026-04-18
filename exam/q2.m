@@ -1,22 +1,13 @@
-clear
-clc
+% s = tf('s');
+% g = (10^7*s)/(s*(s + 10)*(s + 1000) + 10^7);
+% rlocus(g)
 
-syms k s
+syms s T
+expand(s*(s + 10)*(s + 1000) + 10^7*(T*s + 1))
 
-g = (k*(s + 4))/(s*(s + 2)^2*(s + 6));
-pretty(g)
-
-step1 = simplify(1 + g);
-pretty(step1)
-
-[num, den] = numden(step1);
-step2 = expand(num);
-pretty(step2)
-
-% Routh Table
-R = sym(zeros(5,3));
-R(1,:) = [1 28 4*k];
-R(2,:) = [10 (24+k) 0];
+R = sym(zeros(4,2));
+R(1,:) = [1 10000+10^7*T];
+R(2,:) = [1010 10^7];
 
 function value = routh(R,x,y)
     if ((R(x-1,1) == 0))
@@ -34,10 +25,6 @@ R(3,1) = routh(R, 3, 1);
 R(3,2) = routh(R, 3, 2);
 
 R(4,1) = routh(R, 4, 1);
-R(4,2) = 0;
-
-R(5,1) = routh(R, 5, 1);
-R(5,2) = routh(R, 5, 2);
-
+R(4,2) = routh(R, 4, 2);
 
 pretty(R)
